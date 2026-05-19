@@ -1,0 +1,88 @@
+name: fact_service_delivery
+version: "2.0"
+description: PSI DISC DHIS2 Health Data Pipeline - Fact Table Contract
+
+columns:
+  - name: fact_id
+    type: string
+    nullable: false
+  - name: period
+    type: string
+    nullable: false
+  - name: year
+    type: integer
+    nullable: false
+  - name: month
+    type: integer
+    nullable: false
+  - name: quarter
+    type: string
+    nullable: false
+  - name: year_month
+    type: string
+    nullable: false
+  - name: date_key
+    type: string
+    nullable: false
+  - name: org_unit_id
+    type: string
+    nullable: false
+  - name: facility_name
+    type: string
+    nullable: true
+  - name: country_name
+    type: string
+    nullable: true
+  - name: region_name
+    type: string
+    nullable: true
+  - name: district_name
+    type: string
+    nullable: true
+  - name: data_element_id
+    type: string
+    nullable: false
+  - name: data_element_name
+    type: string
+    nullable: true
+  - name: program_id
+    type: string
+    nullable: true
+  - name: health_area
+    type: string
+    nullable: true
+  - name: coc_id
+    type: string
+    nullable: true
+  - name: coc_name
+    type: string
+    nullable: true
+  - name: is_orphaned_coc
+    type: boolean
+    nullable: true
+  - name: value
+    type: string
+    nullable: true
+  - name: typed_value
+    type: double
+    nullable: true
+  - name: is_explicit_zero
+    type: boolean
+    nullable: true
+  - name: is_missing_value
+    type: boolean
+    nullable: true
+  - name: is_late_reported
+    type: boolean
+    nullable: true
+  - name: is_outlier
+    type: boolean
+    nullable: true
+
+constraints:
+  - name: typed_value_non_negative
+    expression: "typed_value IS NULL OR typed_value >= 0"
+  - name: period_format_monthly
+    expression: "length(period) = 6 AND period rlike '^[0-9]+$'"
+  - name: fact_id_not_null
+    expression: "fact_id IS NOT NULL"

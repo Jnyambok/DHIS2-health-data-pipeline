@@ -1,0 +1,10 @@
+{
+  "programs": [
+    {"id": "PROG_HIV_KE",  "name": "Kenya HIV Care & Treatment",    "healthArea": "HIV",     "country": "Kenya",    "reportingFrequency": "MONTHLY", "dataElements": ["DE_CD4", "DE_ART"]},
+    {"id": "PROG_MAL_KE",  "name": "Kenya Malaria Control",         "healthArea": "Malaria", "country": "Kenya",    "reportingFrequency": "MONTHLY", "dataElements": ["DE_MCASE", "DE_RDT"]},
+    {"id": "PROG_HIV_UG",  "name": "Uganda HIV Care & Treatment",   "healthArea": "HIV",     "country": "Uganda",   "reportingFrequency": "MONTHLY", "dataElements": ["DE_CD4", "DE_ART"]},
+    {"id": "PROG_MAL_UG",  "name": "Uganda Malaria Control",        "healthArea": "Malaria", "country": "Uganda",   "reportingFrequency": "MONTHLY", "dataElements": ["DE_MCASE", "DE_RDT"]},
+    {"id": "PROG_HIV_TZ",  "name": "Tanzania HIV Care & Treatment", "healthArea": "HIV",     "country": "Tanzania", "reportingFrequency": "MONTHLY", "dataElements": ["DE_CD4", "DE_ART"]},
+    {"id": "PROG_MAL_TZ",  "name": "Tanzania Malaria Control",      "healthArea": "Malaria", "country": "Tanzania", "reportingFrequency": "MONTHLY", "dataElements": ["DE_MCASE", "DE_RDT"]}
+  ]
+}

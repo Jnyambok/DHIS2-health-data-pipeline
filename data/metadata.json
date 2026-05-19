@@ -1,0 +1,13 @@
+{
+  "dataElements": [
+    {"id": "DE_CD4",   "name": "CD4 Count",               "valueType": "INTEGER_ZERO_OR_POSITIVE", "domainType": "AGGREGATE", "categoryCombo": {"id": "COC_DEF"}},
+    {"id": "DE_ART",   "name": "ART New Enrollments",     "valueType": "INTEGER_ZERO_OR_POSITIVE", "domainType": "AGGREGATE", "categoryCombo": {"id": "COC_DEF"}},
+    {"id": "DE_MCASE", "name": "Confirmed Malaria Cases", "valueType": "INTEGER_ZERO_OR_POSITIVE", "domainType": "AGGREGATE", "categoryCombo": {"id": "COC_DEF"}},
+    {"id": "DE_RDT",   "name": "RDT Tests Conducted",     "valueType": "INTEGER_ZERO_OR_POSITIVE", "domainType": "AGGREGATE", "categoryCombo": {"id": "COC_DEF"}}
+  ],
+  "categoryOptionCombos": [
+    {"id": "COC_DEF", "name": "Default"},
+    {"id": "COC_M",   "name": "Male"},
+    {"id": "COC_F",   "name": "Female"}
+  ]
+}

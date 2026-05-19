@@ -1,0 +1,22 @@
+{
+  "organisationUnits": [
+    {"id": "OU_KE",    "name": "Kenya",                         "level": 1, "path": "/OU_KE",                              "parent": {"id": null}, "groups": []},
+    {"id": "OU_UG",    "name": "Uganda",                        "level": 1, "path": "/OU_UG",                              "parent": {"id": null}, "groups": []},
+    {"id": "OU_TZ",    "name": "Tanzania",                      "level": 1, "path": "/OU_TZ",                              "parent": {"id": null}, "groups": []},
+
+    {"id": "OU_KE_R1", "name": "Nairobi Region",                "level": 2, "path": "/OU_KE/OU_KE_R1",                    "parent": {"id": "OU_KE"}, "groups": []},
+    {"id": "OU_UG_R1", "name": "Central Region",                "level": 2, "path": "/OU_UG/OU_UG_R1",                    "parent": {"id": "OU_UG"}, "groups": []},
+    {"id": "OU_TZ_R1", "name": "Dar es Salaam Region",          "level": 2, "path": "/OU_TZ/OU_TZ_R1",                    "parent": {"id": "OU_TZ"}, "groups": []},
+
+    {"id": "OU_KE_D1", "name": "Nairobi North District",        "level": 3, "path": "/OU_KE/OU_KE_R1/OU_KE_D1",          "parent": {"id": "OU_KE_R1"}, "groups": []},
+    {"id": "OU_UG_D1", "name": "Kampala District",              "level": 3, "path": "/OU_UG/OU_UG_R1/OU_UG_D1",          "parent": {"id": "OU_UG_R1"}, "groups": []},
+    {"id": "OU_TZ_D1", "name": "Ilala District",                "level": 3, "path": "/OU_TZ/OU_TZ_R1/OU_TZ_D1",          "parent": {"id": "OU_TZ_R1"}, "groups": []},
+
+    {"id": "OU_KE_F1", "name": "Kenyatta National Hospital",    "level": 4, "path": "/OU_KE/OU_KE_R1/OU_KE_D1/OU_KE_F1", "parent": {"id": "OU_KE_D1"}, "groups": [{"name": "Hospital"}]},
+    {"id": "OU_KE_F2", "name": "Nairobi City Clinic",           "level": 4, "path": "/OU_KE/OU_KE_R1/OU_KE_D1/OU_KE_F2", "parent": {"id": "OU_KE_D1"}, "groups": [{"name": "Health Centre"}]},
+    {"id": "OU_UG_F1", "name": "Mulago National Hospital",      "level": 4, "path": "/OU_UG/OU_UG_R1/OU_UG_D1/OU_UG_F1", "parent": {"id": "OU_UG_D1"}, "groups": [{"name": "Hospital"}]},
+    {"id": "OU_UG_F2", "name": "Kampala Health Centre IV",      "level": 4, "path": "/OU_UG/OU_UG_R1/OU_UG_D1/OU_UG_F2", "parent": {"id": "OU_UG_D1"}, "groups": [{"name": "Health Centre"}]},
+    {"id": "OU_TZ_F1", "name": "Muhimbili National Hospital",   "level": 4, "path": "/OU_TZ/OU_TZ_R1/OU_TZ_D1/OU_TZ_F1", "parent": {"id": "OU_TZ_D1"}, "groups": [{"name": "Hospital"}]},
+    {"id": "OU_TZ_F2", "name": "Dar es Salaam Regional Clinic", "level": 4, "path": "/OU_TZ/OU_TZ_R1/OU_TZ_D1/OU_TZ_F2", "parent": {"id": "OU_TZ_D1"}, "groups": [{"name": "Health Centre"}]}
+  ]
+}
