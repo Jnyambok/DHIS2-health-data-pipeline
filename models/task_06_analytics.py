@@ -37,17 +37,21 @@ def run_analytics(fact_df: DataFrame, org_units: DataFrame, output_dir: str) -> 
         f"{output_dir}/analytics_kpi_summary_csv"
     )
 
-    # Period-over-period change
-    w_pop = Window.partitionBy("org_unit_id", "data_element_id").orderBy("period")
+    # MoM % change per indicator per district (aggregate to district level first)
+    district_monthly = fact_df.groupBy(
+        "district_name", "country_name", "data_element_id", "data_element_name", "period"
+    ).agg(F.sum("typed_value").alias("district_total"))
+
+    w_pop = Window.partitionBy("district_name", "data_element_id").orderBy("period")
     pop_growth = (
-        fact_df
-        .withColumn("prev_value", F.lag("typed_value", 1).over(w_pop))
+        district_monthly
+        .withColumn("prev_value", F.lag("district_total", 1).over(w_pop))
         .withColumn(
             "pct_change",
             F.when(
                 F.col("prev_value").isNotNull() & (F.col("prev_value") != 0),
                 F.round(
-                    (F.col("typed_value") - F.col("prev_value")) / F.col("prev_value") * 100, 2
+                    (F.col("district_total") - F.col("prev_value")) / F.col("prev_value") * 100, 2
                 ),
             ),
         )
@@ -109,16 +113,13 @@ def run_analytics(fact_df: DataFrame, org_units: DataFrame, output_dir: str) -> 
         f"{output_dir}/analytics_reporting_rate_csv"
     )
 
-    # Top-5 underreporters: ranked by number of periods with zero or missing values
-    w_under = Window.partitionBy("data_element_id").orderBy(F.desc("zero_or_missing_periods"))
+    # Top-5 underreporters per health area: ranked by periods with zero data
+    w_under = Window.partitionBy("health_area").orderBy(F.desc("zero_periods"))
     underreporters = (
         fact_df
-        .withColumn("_is_zero_or_null",
-            F.col("is_explicit_zero") | F.col("is_missing_value")
-        )
-        .groupBy("org_unit_id", "facility_name", "country_name", "data_element_id", "data_element_name")
+        .groupBy("org_unit_id", "facility_name", "country_name", "health_area")
         .agg(
-            F.sum(F.col("_is_zero_or_null").cast("int")).alias("zero_or_missing_periods"),
+            F.sum(F.col("is_explicit_zero").cast("int")).alias("zero_periods"),
             F.count("*").alias("total_periods"),
         )
         .withColumn("rank", F.dense_rank().over(w_under))

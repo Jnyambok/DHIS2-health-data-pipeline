@@ -10,18 +10,24 @@ logger = logging.getLogger(__name__)
 def detect_anomalies(fact_df: DataFrame, output_dir: str) -> DataFrame:
     logger.info("  Bonus B3: Anomaly Detection")
 
-    stats = fact_df.groupBy("data_element_id").agg(
-        F.avg("typed_value").alias("_mean"),
-        F.stddev("typed_value").alias("_std"),
+    # Per-facility 12-month rolling mean and std (spec: facility's own rolling mean)
+    w_roll = (
+        Window.partitionBy("org_unit_id", "data_element_id")
+              .orderBy("period")
+              .rowsBetween(-11, 0)
     )
-
-    zscore_df = fact_df.join(F.broadcast(stats), on="data_element_id", how="left").withColumn(
-        "z_score",
-        F.when(
-            F.col("_std").isNotNull() & (F.col("_std") > 0) & F.col("typed_value").isNotNull(),
-            F.abs(F.col("typed_value") - F.col("_mean")) / F.col("_std"),
-        ).otherwise(F.lit(0.0)),
-    ).drop("_mean", "_std")
+    zscore_df = (
+        fact_df
+        .withColumn("_roll_mean", F.avg("typed_value").over(w_roll))
+        .withColumn("_roll_std",  F.stddev("typed_value").over(w_roll))
+        .withColumn(
+            "z_score",
+            F.when(
+                F.col("_roll_std").isNotNull() & (F.col("_roll_std") > 0) & F.col("typed_value").isNotNull(),
+                F.abs(F.col("typed_value") - F.col("_roll_mean")) / F.col("_roll_std"),
+            ).otherwise(F.lit(0.0)),
+        ).drop("_roll_mean", "_roll_std")
+    )
 
     zscore_anomalies = zscore_df.filter(F.col("z_score") > 3.0).select(
         "fact_id", "period", "country_name", "facility_name",
