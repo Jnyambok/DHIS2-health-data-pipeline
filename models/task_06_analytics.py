@@ -113,13 +113,14 @@ def run_analytics(fact_df: DataFrame, org_units: DataFrame, output_dir: str) -> 
         f"{output_dir}/analytics_reporting_rate_csv"
     )
 
-    # Top-5 underreporters per health area: ranked by periods with zero data
-    w_under = Window.partitionBy("health_area").orderBy(F.desc("zero_periods"))
+    # Top-5 underreporters per health area: ranked by periods with zero or missing data
+    w_under = Window.partitionBy("health_area").orderBy(F.desc("zero_or_missing_periods"))
     underreporters = (
         fact_df
+        .withColumn("_is_zero_or_null", F.col("is_explicit_zero") | F.col("is_missing_value"))
         .groupBy("org_unit_id", "facility_name", "country_name", "health_area")
         .agg(
-            F.sum(F.col("is_explicit_zero").cast("int")).alias("zero_periods"),
+            F.sum(F.col("_is_zero_or_null").cast("int")).alias("zero_or_missing_periods"),
             F.count("*").alias("total_periods"),
         )
         .withColumn("rank", F.dense_rank().over(w_under))
